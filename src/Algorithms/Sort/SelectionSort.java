@@ -21,9 +21,12 @@ public class SelectionSort {
                     pos = j;
                 }
             }
-            int t = arr[i];
-            arr[i] = arr[pos];
-            arr[pos] = t;
+            if (i == pos) {
+                continue;
+            }
+            arr[pos] = arr[i] + arr[pos];
+            arr[i] = arr[pos] - arr[i];
+            arr[pos] = arr[pos] - arr[i];
         }
     }
     
