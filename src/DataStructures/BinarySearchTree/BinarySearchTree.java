@@ -187,6 +187,70 @@ public class BinarySearchTree {
                 }
         }
         
+        /**
+         * method to find LCA 
+         * @param d1
+         * @param d2
+         */
+        public void LCA(int d1, int d2) {
+                this.LCA(this.root, d1, d2);
+                this.LCAHeight(this.root, d1, d2);
+                this.LCADiameter(this.root, d1, d2);
+        }
+        
+        private int LCA(Node node, int d1, int d2) {
+                if (node == null) return 0;
+                int c , l , r;
+                l = this.LCA(node.left, d1, d2);
+                r = this.LCA(node.right, d1, d2);
+                c = l + r;
+                if (c == 2) {
+                        System.out.println("LCA of " + d1 + " and " + d2 +" is " +node.data);
+                        return 0;
+                }
+                else if (node.data == d1 || node.data == d2) {
+                        return c + 1;
+                } else {
+                        return c;
+                }
+        }
+        
+        private int LCAHeight(Node node, int d1, int d2) {
+                if (node == null) return 0;
+                int l, r;
+                l = this.LCAHeight(node.left, d1, d2);
+                r = this.LCAHeight(node.right, d1, d2);
+                if (l > 0 && r > 0) {
+                        System.out.println("Height of LCA from either node as leaf is " + ((l > r ? l : r) + 1));
+                }
+                else if (node.data == d1 || node.data == d2) {
+                        return 1;
+                } else if (l > 0) {
+                        return l + 1;
+                } else if (r > 0) {
+                        return r + 1;
+                }
+                return 0;
+        }
+        
+        private int LCADiameter(Node node, int d1, int d2) {
+                if (node == null) return 0;
+                int l, r;
+                l = this.LCADiameter(node.left, d1, d2);
+                r = this.LCADiameter(node.right, d1, d2);
+                if (l > 0 && r > 0) {
+                        System.out.println("Diameter of LCA is " + (l + r + 1));
+                }
+                else if (node.data == d1 || node.data == d2) {
+                        return 1;
+                } else if (l > 0) {
+                        return l + 1;
+                } else if (r > 0) {
+                        return r + 1;
+                }
+                return 0;
+        }
+        
 }
 
 class BinarySearchTreeAllOps {
@@ -216,5 +280,6 @@ class BinarySearchTreeAllOps {
                     bst.inOrderTraversal();
                 }*/
                 //bst.inOrderTraversal();
+                //bst.LCA(625, 1250);
         }
 }
