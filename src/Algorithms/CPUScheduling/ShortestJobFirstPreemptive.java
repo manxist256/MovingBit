@@ -38,7 +38,7 @@ class SRTF {
                 return k;
         }
     
-        public void main () {
+        public void run () {
                 Scanner sc = new Scanner(System.in);
                 int N = sc.nextInt();
                 int[] AT = new int[N], BT = new int[N], CT = new int[N], WT = new int[N], TAT = new int[N];
@@ -95,6 +95,6 @@ class SRTF {
 
 public class ShortestJobFirstPreemptive {
         public static void main(String[] args) {
-                new SRTF().main();
+                new SRTF().run();
         }
 }
