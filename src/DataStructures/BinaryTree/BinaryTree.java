@@ -91,6 +91,65 @@ public class BinaryTree {
                         System.out.println();
                 }
         }
+        
+        public void search(int data) {
+                for (int i = 0; i < t; i++) {
+                        if (arr[i].data == data) {
+                                System.out.println(data + " found.");
+                                return;
+                        }
+                }  
+                System.out.println(data + " not found.");
+        }
+        
+        private int getParent(int index) {
+                return (index - 1) / 2;
+        }
+        
+        private void initiateDelete(Node delete, int index) {
+                Node replacement = arr[--t];
+                replacement.left = delete.left;
+                replacement.right = delete.right;
+                delete.left = null; delete.right = null;
+                arr[index] = replacement;
+                if (index == 0) { //parent node is getting deleted.
+                        this.root = replacement;
+                } else { // some other intermediate node/ leaf node is getting deleted.
+                        int parent = getParent(index);
+                        Node parentNode = arr[parent];
+                        int lci = getLeftChild(parent);
+                        int rci = getRightChild(parent);
+                        
+                        if (lci == index) { //left child of parent is getting deleted.
+                                parentNode.left = replacement;
+                        } else if (rci == index){ //right child of parent is getting deleted.
+                                parentNode.right = replacement;
+                        }
+                        
+                }
+                // remove replacement from end of list and from it's older parent.
+                arr[t] = null;
+                int olderParent = getParent(t);
+                Node olderParentNode = arr[olderParent];
+                int olci = getLeftChild(olderParent);
+                int orci = getRightChild(olderParent);
+                if (olci == t) { //older parent's left node is replacement.
+                        olderParentNode.left = null;
+                } else if (orci == t) {
+                        olderParentNode.right = null;
+                }
+        }
+        
+        public void delete(int data) {
+                Node delete = null; int index = -1;
+                for (int i = 0; i < t; i++) {
+                        if (arr[i].data == data) {
+                                delete = arr[i];
+                                index = i;
+                        }
+                }  
+                this.initiateDelete(delete, index);
+        }
 }
 
 class BinaryTreeAllOps {
@@ -106,6 +165,10 @@ class BinaryTreeAllOps {
                         bt.insert(i);
                         //bt.treeTravesal();
                 }
-                bt.levelOrderTraversal();
+                //bt.levelOrderTraversal();
+                //bt.search(21);
+                //bt.delete(2);
+                //bt.treeTravesal();
+                //bt.inOrderTraversal();
         }
 }
