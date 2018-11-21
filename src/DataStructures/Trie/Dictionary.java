@@ -103,6 +103,24 @@ class  TrieDictionary {
                 }
         }
         
+        public void delete(String word) {
+                word = word.toLowerCase();
+                Node walker = this.root;
+                int i = 0;
+                while (i < word.length()) {
+                        if (walker.arr[word.charAt(i) - 97] == null) {
+                                System.out.println(word + " not exist to delete.");
+                                return;
+                        }
+                        walker = walker.arr[word.charAt(i++) - 97];
+                }
+                if (walker.word == true) {
+                        walker.word = false;
+                } else {
+                        System.out.println(word + " not exist to delete.");
+                }
+        }
+        
 }
 
 public class Dictionary {
@@ -119,6 +137,9 @@ public class Dictionary {
                 trie.insertWord("nise");
                 trie.insertWord("mad");
                 //trie.searchWord("nithin");
-                //trie.buildPossibilities("n");
+                //trie.buildPossibilities("mani");
+                //trie.delete("manik");
+                //System.out.println("");
+                //trie.buildPossibilities("");
         }
 }
