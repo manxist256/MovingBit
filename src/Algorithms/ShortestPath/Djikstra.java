@@ -9,6 +9,7 @@ package Algorithms.ShortestPath;
  *
  * @author mankank
  */
+//SSSP
 public class Djikstra {
     
 }
