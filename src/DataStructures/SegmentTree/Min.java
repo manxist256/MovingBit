@@ -81,10 +81,50 @@ public class Min {
                 return min;
         }
         
+        private static void updateWithlazy(int x, int y, int data, int[] segmentTree, int[] lazyTree, int N) { //update segmentTree without lazy
+                updateWithLazyTree(x, y, data, segmentTree, lazyTree, 0, N - 1, 0);
+        }
+        
+        private static int updateWithLazyTree(int x, int y, int data, int[] segmentTree, int[] lazyTree, int low, int high, int pos) {
+                if (lazyTree[pos] != 0) {
+                        segmentTree[pos] += lazyTree[pos];
+                        int lc = 2 * pos + 1; int rc = 2 * pos + 2;
+                        if (lc < lazyTree.length) {
+                                lazyTree[lc] += lazyTree[pos]; 
+                        }
+                        if (rc < lazyTree.length) {
+                                lazyTree[rc] += lazyTree[pos];
+                        }
+                        lazyTree[pos] = 0;
+                }
+                if (y < low || x > high) { // no overlap
+                        return segmentTree[pos];
+                }
+                if (low >= x && high <= y) { //total overlap
+                        segmentTree[pos] += data;
+                        int lc = 2 * pos + 1, rc = 2 * pos + 2;
+                        if (lc < lazyTree.length) {
+                                lazyTree[lc] += data;
+                        } 
+                        if (rc < lazyTree.length) {
+                                lazyTree[rc] += data;
+                        }
+                        return segmentTree[pos];
+                }
+                // partial overlap
+                int mid = (low + high) / 2;
+                int l = updateWithLazyTree(x, y, data, segmentTree, lazyTree, low, mid, 2 * pos + 1);
+                int r = updateWithLazyTree(x, y, data, segmentTree, lazyTree, mid + 1, high, 2 * pos + 2);
+                int min = Math.min(l, r);
+                segmentTree[pos] = min;
+                return min;
+        }
+        
         public static void main(String[] args) {
                 Scanner sc = new Scanner(System.in);
                 int N = sc.nextInt();
                 int[] segmentTree = new int[find2PowN(N)*2  - 1];
+                int[] lazyTree = new int[segmentTree.length];
                 int[] input = new int[N];
                 for (int i = 0; i < N; i++) {
                         input[i] = sc.nextInt();
@@ -108,5 +148,18 @@ public class Min {
                         }
                         System.out.println();
                 }*/
+                while (true) {
+                        int x = sc.nextInt(), y = sc.nextInt();
+                        int data = sc.nextInt();
+                        updateWithlazy(x, y, data, segmentTree, lazyTree, N);
+                        for (int i = 0; i < segmentTree.length; i++) {
+                                System.out.print(segmentTree[i] + " ");
+                        }
+                        System.out.println();
+                        for (int i = 0; i < segmentTree.length; i++) {
+                                System.out.print(lazyTree[i] + " ");
+                        }
+                        System.out.println();
+                }
         }
 }
