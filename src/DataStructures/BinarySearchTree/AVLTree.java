@@ -193,6 +193,15 @@ class AVL {
                 node.l_h = l; node.r_h = r;
                 return Math.max(l, r) + 1;
         }
+        
+        private void delete() {
+            // delete the node.
+            // find suitable node to replace the delete node position.
+            // update avl tree height.
+            // check for violation.
+            // if violation, fix the violation.
+            // update avl tree height.
+        }
 }
 
 public class AVLTree {
