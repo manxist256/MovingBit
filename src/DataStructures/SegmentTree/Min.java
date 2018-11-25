@@ -59,20 +59,23 @@ public class Min {
                 }
         }
         
-        private static void update(int pos, int data, int[] segmentTree, int N) { //update segmentTree without lazy
-                update(pos, data, segmentTree, 0, N - 1, 0);
+        private static void update(int x, int y, int data, int[] segmentTree, int N) { //update segmentTree without lazy
+                update(x, y, data, segmentTree, 0, N - 1, 0);
         }
         
-        private static int update(int upos, int data, int[] segmentTree, int low, int high, int pos) {
+        private static int update(int x, int y, int data, int[] segmentTree, int low, int high, int pos) {
+                if (y < low || x > high) { // no overlap
+                        return segmentTree[pos];
+                }
                 if (low == high) {
-                        if (low == upos) { // or high == upos
-                                segmentTree[pos] = data;
+                        if (low >= x && low <= y) {
+                                segmentTree[pos] += data;
                         }
                         return segmentTree[pos];
                 }
                 int mid = (low + high) / 2;
-                int l = update(upos, data, segmentTree, low, mid, 2 * pos + 1);
-                int r = update(upos, data, segmentTree, mid + 1, high, 2 * pos + 2);
+                int l = update(x, y ,data, segmentTree, low, mid, 2 * pos + 1);
+                int r = update(x, y, data, segmentTree, mid + 1, high, 2 * pos + 2);
                 int min = Math.min(l, r);
                 segmentTree[pos] = min;
                 return min;
@@ -97,9 +100,9 @@ public class Min {
                         rangedQueries(segmentTree, n1, n2, N);
                 }*/
                 /*while (true) {
-                        int pos = sc.nextInt();
+                        int x = sc.nextInt(), y = sc.nextInt();
                         int data = sc.nextInt();
-                        update(pos, data, segmentTree, N);
+                        update(x, y, data, segmentTree, N);
                         for (int i = 0; i < segmentTree.length; i++) {
                                 System.out.print(segmentTree[i] + " ");
                         }
