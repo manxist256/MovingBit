@@ -59,6 +59,25 @@ public class Min {
                 }
         }
         
+        private static void update(int pos, int data, int[] segmentTree, int N) { //update segmentTree without lazy
+                update(pos, data, segmentTree, 0, N - 1, 0);
+        }
+        
+        private static int update(int upos, int data, int[] segmentTree, int low, int high, int pos) {
+                if (low == high) {
+                        if (low == upos) { // or high == upos
+                                segmentTree[pos] = data;
+                        }
+                        return segmentTree[pos];
+                }
+                int mid = (low + high) / 2;
+                int l = update(upos, data, segmentTree, low, mid, 2 * pos + 1);
+                int r = update(upos, data, segmentTree, mid + 1, high, 2 * pos + 2);
+                int min = Math.min(l, r);
+                segmentTree[pos] = min;
+                return min;
+        }
+        
         public static void main(String[] args) {
                 Scanner sc = new Scanner(System.in);
                 int N = sc.nextInt();
@@ -73,9 +92,18 @@ public class Min {
                 }
                 System.out.println();
                 System.out.println("Enter Ranged Queries : ");
-                while (true) {
+                /*while (true) {
                         int n1 = sc.nextInt(), n2 = sc.nextInt();
                         rangedQueries(segmentTree, n1, n2, N);
-                }
+                }*/
+                /*while (true) {
+                        int pos = sc.nextInt();
+                        int data = sc.nextInt();
+                        update(pos, data, segmentTree, N);
+                        for (int i = 0; i < segmentTree.length; i++) {
+                                System.out.print(segmentTree[i] + " ");
+                        }
+                        System.out.println();
+                }*/
         }
 }
