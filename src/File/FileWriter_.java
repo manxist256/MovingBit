@@ -15,6 +15,7 @@ import java.io.IOException;
 public class FileWriter_ {
         public static void main(String[] args) throws IOException {
                 FileWriter fw = new FileWriter("a.txt", true); //pass append = true, else filewriter constructor will delete the older file named a.txt and creates new a.txt.
+                fw.write("Appending new characters to existing file... \n"); //manually provide new line command. FileWriter doesn't supports it.
                 fw.write("Appending new characters to existing file...");
                 fw.close();
         }
