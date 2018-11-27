@@ -44,6 +44,5 @@ public class Serialization_ {
                         Dog dog = (Dog)ois.readObject();
                         System.out.println(dog.name + " "+dog.age);
                 }
-                
         }
 }
