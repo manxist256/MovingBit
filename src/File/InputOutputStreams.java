@@ -6,6 +6,7 @@
 package File;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -25,5 +26,6 @@ public class InputOutputStreams {
                 fos.write(100);
                 BufferedInputStream b = new BufferedInputStream(new FileInputStream("a.txt"));
                 BufferedInputStream b_ = new BufferedInputStream(System.in);
+                BufferedOutputStream b__ = new BufferedOutputStream(System.out);
         }   
 }
