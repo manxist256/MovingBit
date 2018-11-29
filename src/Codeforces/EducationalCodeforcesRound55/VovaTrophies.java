@@ -82,6 +82,10 @@ public class VovaTrophies {
             System.out.println(smax + 1);
             return;
         }
+        if (update == 0 && cog == 1) {
+            System.out.println(smax);
+            return;
+        }
         if (update == 1 && cog == 1) {
             System.out.println(smax);
             return;
