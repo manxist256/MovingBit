@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Games;
+package GUI.Games;
 
 /**
  *
  * @author mankank
  */
-public class Flappybird {
+public class Mario {
     
 }
