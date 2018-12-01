@@ -9,12 +9,15 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 /**
@@ -34,10 +37,13 @@ class Server_ extends JFrame implements MouseListener {
         private JTextField inputField;
         private JButton sendButton;
         
+        private BufferedReader rw_1;
         private PrintWriter pw_1;
         
         private ServerSocket server_socket;
         private Socket socket;
+        
+        private JLabel datalabel;
     
         public Server_() {
                 buildJFrame();
@@ -58,7 +64,7 @@ class Server_ extends JFrame implements MouseListener {
         
         private void addListeners() {
                 this.sendButton.addMouseListener(this);
-       }
+        }
         
         private void buildJFrame() {
                 this.setVisible(true);
@@ -77,6 +83,16 @@ class Server_ extends JFrame implements MouseListener {
         
         public void initializeIO() throws IOException {
                 this.pw_1 = new PrintWriter(socket.getOutputStream());
+                this.rw_1 = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        }
+        
+        public void listen() throws IOException {
+                while (true) {
+                        String msg = rw_1.readLine();
+                        this.datalabel = new JLabel();
+                        this.add(datalabel);
+                        datalabel.setText(msg);
+                }
         }
 
         @Override
@@ -113,5 +129,6 @@ public class _2JFrameChatServer {
             Server_ server = new Server_();
             server.initializeSocket();
             server.initializeIO();
+            server.listen();
         }
 }

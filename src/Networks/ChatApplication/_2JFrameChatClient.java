@@ -12,10 +12,13 @@ import java.awt.event.MouseListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 /**
  *
@@ -27,15 +30,24 @@ class Client_ extends JFrame implements MouseListener {
         private static final int WINDOW_WIDTH = 300;
         private static final int WINDOW_HEIGHT = 300;
         private static final String WINDOW_TITLE = "Nithin";
+        private static final int TEXT_FIELD_MAX_CHAR = 20;
+        private static final String SEND_LABEL = "Send";
+        
+        private JTextField inputField;
+        private JButton sendButton;
         
         private Socket socket;
         
         private BufferedReader rw_1;
+        private PrintWriter pw_1;
         
         private JLabel datalabel;
 
         public Client_() {
                 buildJFrame();
+                initializeComponents();
+                addComponents();
+                addListeners();
         }
 
         private void buildJFrame() {
@@ -47,6 +59,20 @@ class Client_ extends JFrame implements MouseListener {
                 this.setLayout(new FlowLayout());
                 this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         }
+        
+        private void initializeComponents() {
+                this.inputField = new JTextField(TEXT_FIELD_MAX_CHAR);
+                this.sendButton = new JButton(SEND_LABEL);
+        }
+        
+        private void addComponents() {
+                this.add(inputField);
+                this.add(sendButton);
+        }
+        
+        private void addListeners() {
+                this.sendButton.addMouseListener(this);
+        }
 
         public void initializeSocket() throws IOException {
                 socket = new Socket(InetAddress.getLocalHost(), 2500);
@@ -54,6 +80,7 @@ class Client_ extends JFrame implements MouseListener {
 
         public void initializeIO() throws IOException {
                 this.rw_1 = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                this.pw_1 = new PrintWriter(socket.getOutputStream());
         }
 
         public void listen() throws IOException {
@@ -67,27 +94,25 @@ class Client_ extends JFrame implements MouseListener {
         
         @Override
         public void mouseClicked(MouseEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                String input = inputField.getText();
+                this.pw_1.println(input);
+                this.pw_1.flush();
         }
 
         @Override
         public void mousePressed(MouseEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
 
         @Override
         public void mouseReleased(MouseEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
 
         @Override
         public void mouseEntered(MouseEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
     
 }
