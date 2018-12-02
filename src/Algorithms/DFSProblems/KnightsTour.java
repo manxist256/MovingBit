@@ -11,6 +11,7 @@ import java.util.Scanner;
  *
  * @author mankank
  */
+// Backtracking
 public class KnightsTour {
     
         private final int xi[]={2, 1, -1, -2, -2, -1, 1, 2};

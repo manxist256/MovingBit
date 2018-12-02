@@ -11,6 +11,7 @@ import java.util.Scanner;
  *
  * @author mankank
  */
+// Backtracking
 public class NQueens {
     
         private void placeNQueens(char[][] board, int N) {
