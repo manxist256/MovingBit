@@ -27,5 +27,7 @@ public class ImplementingAThread {
                 for (int i = 0; i < 10; i++) {
                         System.out.println("Main method");
                 }
+                System.out.println(t.getName()); // return's the thread name {Thread-0}
+                System.out.println(Thread.currentThread().getName()); // return's the main thread name {main}
         }
 }
