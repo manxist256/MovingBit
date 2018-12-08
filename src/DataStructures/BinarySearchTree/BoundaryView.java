@@ -50,16 +50,6 @@ class BST$5 {
                         }
                 }
         }
-
-        
-        private boolean maxLevelReached(Object[] q) {
-                for (Object q1 : q) {
-                        if (q1 != null) {
-                                return false;
-                        }
-                }
-                return true;
-        }
         
         public void computeBoundaryView() {
                 ArrayList<Node> llist = getLeftList(this.root, new ArrayList<>());
@@ -74,7 +64,7 @@ class BST$5 {
                         System.out.println(llist.get(ptr++).data);
                 }
                 while (ptr < rlist.size()) {
-                        System.out.println("               " + rlist.get(ptr).data);
+                        System.out.println("               " + rlist.get(ptr++).data);
                 }
                 for (Node leaf : leaflist) {
                         if (!llist.contains(leaf) && !rlist.contains(leaf))
