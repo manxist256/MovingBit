@@ -5,17 +5,30 @@
  */
 package DataStructures.BinarySearchTree;
 
+import java.util.Comparator;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 /**
  *
  * @author mankank
  */
 
-class BST$10 {
+class TSComparator implements Comparator {
 
-        class Node {
+    @Override
+    public int compare(Object o1, Object o2) {
+         BST$11.Node n1 = (BST$11.Node)o1;
+         BST$11.Node n2 = (BST$11.Node)o2;
+         return n1.data < n2.data ? +1 : -1;
+    }
+    
+}
+
+class BST$11 {
+    
+        static class Node {
                 int data;
                 Node left, right;
                 public Node(int data) {
@@ -25,7 +38,7 @@ class BST$10 {
         
         Node root;
         
-        public BST$10() {
+        public BST$11() {
                 this.root = null;
         }
         
@@ -53,28 +66,41 @@ class BST$10 {
                 }
         }
 
-        public void topView() {
-                TreeMap<Integer, TreeMap<Integer, Node>> map = verticalView(this.root, new TreeMap(), 0, 0);
+        public void bottomView() {
+                TreeMap<Integer, TreeMap<Integer, TreeSet<Node>>> map = bottomView(this.root, new TreeMap(), 0, 0);
                 for (Map.Entry etr : map.entrySet()) {
-                        TreeMap<Integer, Node> set = (TreeMap<Integer, Node>) etr.getValue();
+                        TreeMap<Integer, TreeSet<Node>> m1 = (TreeMap<Integer, TreeSet<Node>>) etr.getValue();
+                        TreeSet<Node> set = m1.lastEntry().getValue();
                         System.out.print(etr.getKey() + " ");
-                        System.out.println(set.firstEntry().getValue().data);
+                        for (Node node : set) {
+                                System.out.print(node.data + " ");
+                        }
+                        System.out.println();
                 }
                 
         }
         
-        public TreeMap<Integer, TreeMap<Integer, Node>> verticalView(Node node, TreeMap<Integer, TreeMap<Integer, Node>> map, int pos, int level) {
+        public TreeMap<Integer, TreeMap<Integer, TreeSet<Node>>> bottomView(Node node, TreeMap<Integer, TreeMap<Integer, TreeSet<Node>>> map, int pos, int level) {
                 if (node != null) {
                         if (!map.containsKey(pos)) {
-                                TreeMap imap = new TreeMap();
+                                TreeMap<Integer, TreeSet<Node>> imap = new TreeMap();
+                                TreeSet<Node> iset = new TreeSet(new TSComparator());
+                                iset.add(node);
+                                imap.put(level, iset);
                                 map.put(pos, imap);
-                                imap.put(level, node);
                                 
                         } else {
-                                map.get(pos).put(level, node);
+                                Map<Integer, TreeSet<Node>> imap = map.get(pos);
+                                if(!imap.containsKey(level)) {
+                                        TreeSet<Node> set = new TreeSet(new TSComparator());
+                                        imap.put(level, set);
+                                        set.add(node);
+                                } else {
+                                        imap.get(level).add(node);
+                                }
                         }
-                        verticalView(node.left, map, pos - 1, level + 1);
-                        verticalView(node.right, map, pos + 1, level + 1);
+                        bottomView(node.left, map, pos - 1, level + 1);
+                        bottomView(node.right, map, pos + 1, level + 1);
                 }
                 return map;
         }
@@ -82,9 +108,9 @@ class BST$10 {
         
 }
 
-public class TopView {
+public class BottomView {
         public static void main(String[] args) {
-                BST$10 bst = new BST$10();
+                BST$11 bst = new BST$11();
 //                bst.insert(1000);
 //                bst.insert(500);
 //                bst.insert(1500);
@@ -109,6 +135,6 @@ public class TopView {
 //                bst.insert(1376);
 //                bst.insert(1377);
 //                bst.insert(1751);
-                bst.topView();
+//                bst.bottomView();
         }
 }
