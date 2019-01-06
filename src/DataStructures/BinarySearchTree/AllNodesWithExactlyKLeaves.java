@@ -61,7 +61,9 @@ class BST$20 {
                 }
                 int lv = nodesWithKLeaves(node.left, k);
                 int rv = nodesWithKLeaves(node.right, k);
-                if (lv + rv == k) {
+                if (k == 1 && (lv == 1 && rv != 1 || rv == 1 && lv != 1)) {
+                    System.out.println(node.data);
+                } else if (k == 2 && lv == 1 && rv == 1) {
                     System.out.println(node.data);
                 }
                 return Integer.MAX_VALUE;
@@ -80,6 +82,8 @@ public class AllNodesWithExactlyKLeaves {
         bst.insert(1250);
         bst.insert(250);
         bst.insert(750);
+        bst.insert(1750);
+        bst.insert(1625);
         bst.nodesWithKLeaves(1);
     }
 }
