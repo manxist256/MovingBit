@@ -73,30 +73,38 @@ class $12LinkList {
             fn = fn.next;
             ln = ln.next;
         }
+        fp = sp;
+        sp = null;
+        while (fp != null) {
+            Node temp = fp.next;
+            fp.next = sp;
+            sp = fp;
+            fp = temp;
+        }
     }
     
 }
 
 public class ModifyContentsOfALL {
     public static void main(String[] args) {
-//        $12LinkList ll = new $12LinkList();
-//        ll.insert(10);
-//        ll.insert(4);
-//        ll.insert(5);
-//        ll.insert(3);
-//        ll.insert(6);
-//        ll.traverse();
-//        ll.modifyLL();
-//        ll.traverse();
-        $12LinkList ll2 = new $12LinkList();
-        ll2.insert(2);
-        ll2.insert(9);
-        ll2.insert(8);
-        ll2.insert(12);
-        ll2.insert(7);
-        ll2.insert(10);
-        ll2.traverse();
-        ll2.modifyLL();
-        ll2.traverse();
+        $12LinkList ll = new $12LinkList();
+        ll.insert(10);
+        ll.insert(4);
+        ll.insert(5);
+        ll.insert(3);
+        ll.insert(6);
+        ll.traverse();
+        ll.modifyLL();
+        ll.traverse();
+//        $12LinkList ll2 = new $12LinkList();
+//        ll2.insert(2);
+//        ll2.insert(9);
+//        ll2.insert(8);
+//        ll2.insert(12);
+//        ll2.insert(7);
+//        ll2.insert(10);
+//        ll2.traverse();
+//        ll2.modifyLL();
+//        ll2.traverse();
     }
 }
