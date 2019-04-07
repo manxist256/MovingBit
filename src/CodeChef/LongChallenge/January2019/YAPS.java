@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package CodeChef.LongChallenge.January2019;
 
 import java.io.BufferedReader;
 import java.io.IOException;
