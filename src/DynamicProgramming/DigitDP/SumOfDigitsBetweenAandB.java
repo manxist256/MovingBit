@@ -9,7 +9,7 @@ public class SumOfDigitsBetweenAandB {
     //0 = overflow
     //1 = not overflow
 
-    private static long solve(long num, int pos, int of) {
+    private static long digitDP(long num, int pos, int of) {
         if (pos == String.valueOf(num).length() - 1) {
             if (of == 0) {
                 int c = String.valueOf(num).charAt(pos) - 48;
@@ -36,7 +36,7 @@ public class SumOfDigitsBetweenAandB {
             if (of == 0 && dgt < Max_Digit) {
                 nof = 1;
             }
-            res += solve(num, pos + 1, nof);
+            res += digitDP(num, pos + 1, nof);
             if (nof == 1) {
                 res += (dgt * Math.pow(10, ((String.valueOf(num).length() - 1) - pos)));
             } else {
@@ -44,6 +44,15 @@ public class SumOfDigitsBetweenAandB {
             }
         }
         return DP[pos][of] = res;
+    }
+
+    private static long solve(long num, int pos, int of) {
+        for (int i = 0; i < DP.length; i++) {
+            for (int j = 0; j < DP[i].length; j++) {
+                DP[i][j] = -1;
+            }
+        }
+        return digitDP(num, pos, of);
     }
 
     private static long getN(int pos, long num) {
@@ -56,12 +65,7 @@ public class SumOfDigitsBetweenAandB {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        long /*a = scanner.nextByte(),*/ b = scanner.nextLong();
-        for (int i = 0; i < DP.length; i++) {
-            for (int j = 0; j < DP[i].length; j++) {
-                DP[i][j] = -1;
-            }
-        }
-        System.out.println(solve(b, 0, 0));
+        long a = scanner.nextLong(), b = scanner.nextLong();
+        System.out.println(solve(b, 0, 0) - solve(a - 1, 0, 0));
     }
 }
