@@ -19,6 +19,10 @@ public class FibonacciString {
                     arr[index + 26]++;
                 }
             }
+            if (s.length() == 1) {
+                System.out.println("Dynamic");
+                continue outer;
+            }
             int twz = 0;
             for (int j = 0; j < 52; j++) {
                 if (arr[j] > 0) {
@@ -33,13 +37,22 @@ public class FibonacciString {
                 arr2[pk++] = arr[j];
             }
             Arrays.sort(arr2);
+            boolean b1 = true;
             for (int j = 2; j < arr2.length; j++) {
                 if (!(arr2[j] == arr2[j-1]+arr2[j-2])) {
-                    System.out.println("Not");
-                    continue outer;
+                    b1 = false;
+                    break;
                 }
             }
-            System.out.println("Dynamic");
+            int t = arr2[0]; arr2[0] = arr2[1]; arr2[1] = t;
+            boolean b2 = true;
+            for (int j = 2; j < arr2.length; j++) {
+                if (!(arr2[j] == arr2[j-1]+arr2[j-2])) {
+                    b2 = false;
+                    break;
+                }
+            }
+            System.out.println((b1 || b2) ? "Dynamic" : "Not");
         }
     }
 }
