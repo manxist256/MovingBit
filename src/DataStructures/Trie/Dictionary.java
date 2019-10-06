@@ -26,7 +26,7 @@ class  TrieDictionary {
         public TrieDictionary() {
                 this.root = new Node();
         }
-        
+
         public void insertWord(String word) {
                 word = word.toLowerCase();
                 int i = 0, max = word.length();
@@ -46,7 +46,7 @@ class  TrieDictionary {
                         i++;
                 }
         }
-        
+
         public void searchWord(String word) {
                 word = word.toLowerCase();
                 Node walker = this.root;
@@ -64,7 +64,7 @@ class  TrieDictionary {
                         System.out.println(word + " not exist.");
                 }
         }
-        
+
         public void buildPossibilities(String pattern) {
                 Node walker = this.root;
                 int i = 0;
@@ -102,7 +102,7 @@ class  TrieDictionary {
                         }
                 }
         }
-        
+
         public void delete(String word) {
                 word = word.toLowerCase();
                 Node walker = this.root;
@@ -120,7 +120,7 @@ class  TrieDictionary {
                         System.out.println(word + " not exist to delete.");
                 }
         }
-        
+
 }
 
 public class Dictionary {
