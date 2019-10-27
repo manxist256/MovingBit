@@ -5,29 +5,18 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.HashMap;
 
-public class Factorial {
+public class DivideTheCake {
 
     static ReaderWriter rw = new ReaderWriter();
     static Helpers hp = new Helpers();
 
     private static void solve(boolean multipleTC) throws Exception {
-        long[] arr = new long[16];
-        long v = 1;
-        for (int i = 0; i < 16; i++) {
-            arr[i] = v;
-            v *= 5;
-        }
         int T = multipleTC ? rw.ri() : 1;
         while (T-- > 0) {
-            long n = rw.rl();
-            int ans = 0;
-            for (int i = 1; i < arr.length; i++) {
-                if (n / arr[i] == 0) {
-                    break;
-                }
-                ans += (n / arr[i]);
-            }
-            rw.println(ans);
+            int N = rw.ri();
+            rw.println((360 % N == 0 ? "y" : "n") + " "
+                    + (N <= 360 ? "y" : "n") + " "
+                    +  (N <= 26 ? "y" : "n"));
         }
     }
 

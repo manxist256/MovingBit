@@ -3,36 +3,49 @@ package CodeChef.Practice.Easy;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
-public class Factorial {
+public class Voters {
 
     static ReaderWriter rw = new ReaderWriter();
     static Helpers hp = new Helpers();
 
     private static void solve(boolean multipleTC) throws Exception {
-        long[] arr = new long[16];
-        long v = 1;
-        for (int i = 0; i < 16; i++) {
-            arr[i] = v;
-            v *= 5;
-        }
         int T = multipleTC ? rw.ri() : 1;
         while (T-- > 0) {
-            long n = rw.rl();
-            int ans = 0;
-            for (int i = 1; i < arr.length; i++) {
-                if (n / arr[i] == 0) {
-                    break;
+            int[] arr = rw.ria();
+            int f1 = rw.gifs(arr, 0);
+            int f2 = rw.gifs(arr, 1);
+            int f3 = rw.gifs(arr, 2);
+            Map<Integer, Integer> map = new HashMap<>();
+            int c = f1 + f2 + f3;
+            for (int i = 0; i < c; i++) {
+                int v = rw.ri();
+                if (!map.containsKey(v)) {
+                    map.put(v, 0);
                 }
-                ans += (n / arr[i]);
+                int ev = map.get(v);
+                map.put(v, ++ev);
             }
-            rw.println(ans);
+            ArrayList<Integer> arrayList = new ArrayList<>();
+            for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+                if (entry.getValue() > 1) {
+                    arrayList.add(entry.getKey());
+                }
+            }
+            Collections.sort(arrayList);
+            rw.println(arrayList.size());
+            for (Integer integer : arrayList) {
+                rw.println(integer + " ");
+            }
         }
     }
 
     public static void main(String[] args) throws Exception {
-        solve(true);
+        solve(false);
         rw.flush();
     }
 
@@ -86,7 +99,7 @@ public class Factorial {
         }
 
         int ri() throws Exception {
-            return Integer.parseInt(bufferedReader.readLine());
+            return Integer.parseInt(bufferedReader.readLine().trim());
         }
 
         long rl() throws Exception {

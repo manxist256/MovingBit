@@ -1,11 +1,12 @@
-package CodeChef.LongChallenge.October2019;
+//package CodeChef.LongChallenge.October2019;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
 
-public class Maxlis {
+class Maxlis {
 
     static ReaderWriter rw = new ReaderWriter();
     static Helpers hp = new Helpers();
@@ -50,6 +51,12 @@ public class Maxlis {
             int increasing[] = new int[x.length + 1]; // stores LIS of each length
             int index[] = new int[x.length + 1]; // in track of above array // store indexes aligning with above array
             int parent[] = new int[x.length + 1]; // parent array and stores index
+            if (N == K) {
+                Arrays.sort(x);
+                for (int i = 0; i < x.length; i++) {
+                    rw.printWriter.print(x[i] + " ");
+                }
+            }
 
             int length = 1;
 
@@ -88,11 +95,7 @@ public class Maxlis {
                 return;
             }
             HashMap<Integer, Integer> map = new HashMap<>();
-            int max = LIS[LIS.length - 1], min = LIS[0];
             for (int i = 0; i < N; i++) {
-                if (x[i] > max) {
-                    max = x[i];
-                }
                 if (!map.containsKey(x[i])) {
                     map.put(x[i], 0);
                 }
@@ -107,30 +110,7 @@ public class Maxlis {
             int ms[] = new int[K];
             int in[] = new int[K];
             Arrays.fill(in, -1);
-            long constant = 7;
             int mix = 0;
-            ArrayList<Integer> first = new ArrayList<>();
-            ArrayList<Integer> last = new ArrayList<>();
-            Collections.sort(first);
-            Collections.sort(last);
-            HashSet<Integer> setF = new HashSet<>();
-            HashSet<Integer> setE = new HashSet<>();
-            for (int i = 0; i < N; i++) {
-                if (x[i] < min && map.get(x[i]) > 0 && !setF.contains(x[i])) {
-                    first.add(x[i]);
-                    setF.add(x[i]);
-                    int ev = map.get(x[i]);
-                    map.put(x[i], --ev);
-                    mx--;
-                }
-                if (x[i] > max && map.get(x[i]) > 0 && !setE.contains(x[i])) {
-                    last.add(x[i]);
-                    setE.add(x[i]);
-                    int ev = map.get(x[i]);
-                    map.put(x[i], --ev);
-                    mx--;
-                }
-            }
             for (int i = 0; i < N; i++) {
                 if (k < length && LIS[k] == x[i]) {
                     k++;
@@ -147,7 +127,7 @@ public class Maxlis {
                             b++;
                             mx--;
                             mix++;
-                            if (mix == constant || mx == 0)
+                            if (mix == 10)
                                 break;
                         }
                     }
@@ -156,9 +136,6 @@ public class Maxlis {
             }
             int l = 0; boolean printed = false;
             int g = 0;
-            for (Integer integer : first) {
-                rw.printWriter.print(integer + " ");
-            }
             for (int i = 0; i < N; i++) {
                 if (map.get(x[i]) > 0) {
                     rw.printWriter.print(x[i] + " ");
@@ -172,7 +149,7 @@ public class Maxlis {
                 if (l == in[g]+1 && !printed) {
                     int c = 1;
                     g++;
-                    for (int j = 0; j < constant; j++) {
+                    for (int j = 0; j < 10; j++) {
                         if (in[g]+1 == l) {
                             c++;
                             g++;
@@ -190,9 +167,6 @@ public class Maxlis {
                     }
                     printed = true;
                 }
-            }
-            for (Integer integer : last) {
-                rw.printWriter.print(integer + " ");
             }
         }
     }

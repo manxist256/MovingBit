@@ -1,113 +1,60 @@
-package CodeChef.EnigmaOLPC2019;
+package CodeChef.Infinity2019;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
 
-public class ProbelmC {
-
-    static class G {
-        int pos;
-        int spos;
-        public G(int pos) {
-            this.pos = pos;
-        }
-        boolean placed;
-    }
+public class APlotByLittleFinger {
 
     static ReaderWriter rw = new ReaderWriter();
     static Helpers hp = new Helpers();
 
-    static boolean found = false;
-
-    static int find(G[] source, long fix, int low, int high) {
-        if (found || fix <= source[low].pos) {
-            return -1;
+    static int gcd(int a, int b) {
+        if (b == 0) {
+            return a;
         }
-        if (low == high) {
-            if (source[low].pos < fix) {
-                if (!source[low].placed) {
-                    return -1;
-                }
-                found = true;
-                return low;
-            }
-        }
-        int mid = (low+high)/2;
-        int right = find(source, fix, mid + 1, high);
-        int left = find(source, fix, low, mid);
-        if (right == -1) {
-            return left;
-        }
-        else {
-            return right;
-        }
+        return gcd(b, a%b);
     }
 
     private static void solve(boolean multipleTC) throws Exception {
         int T = multipleTC ? rw.ri() : 1;
         while (T-- > 0) {
-            int[] input = rw.ria();
-            int x = rw.gifs(input, 0);
-            int n = rw.gifs(input, 1);
-            int[] lights = rw.ria();
-            int max = x;
-            G[] toS = new G[n+2];
-            G[] queries = new G[n];
-            for (int i = 1; i <= n; i++) {
-                toS[i] = new G(lights[i-1]);
-                queries[i-1] = toS[i];
+            int[] arr = rw.ria();
+            int N = rw.gifs(arr, 0);
+            int P = rw.gifs(arr, 1);
+            HashSet<Integer> rows = new HashSet<>();
+            HashSet<Integer> column = new HashSet<>();
+            for (int i = 0; i < P; i++) {
+                int[] rici = rw.ria();
+                int ri = rw.gifs(rici, 0);
+                int ci = rw.gifs(rici, 1);
+                rows.add(ri);
+                column.add(ci);
             }
-            toS[0] = new G(0);
-            toS[0].placed = true;
-            toS[toS.length - 1] = new G(x+1);
-            Arrays.sort(toS, Comparator.comparing(g -> g.pos));
-            toS[0].pos = 0; toS[toS.length - 1].pos = x;
-            for (int i = 0; i < toS.length; i++) {
-                toS[i].spos = i;
+            int numerator = 0, denominator = N * N;
+            for (int i = 1; i <= N; i++) {
+                if (rows.contains(i)) {
+                    continue;
+                }
+                numerator += N - column.size();
             }
-            int[] position = new int[n+2];
-            position[0] = 0; position[position.length - 1] = x;
-            int[] near = new int[n+2];
-            near[0] = x;
-            TreeMap<Integer, Integer> map = new TreeMap<>(Comparator.reverseOrder());
-            map.put(max, 1);
-            for (int i = 0; i < n; i++) {
-                found = false;
-                G g = queries[i];
-                int nearestToPos = find(toS, g.pos, 0, position.length - 1);
-                int rangeLeft = position[nearestToPos];
-                int rangeRight = near[nearestToPos];
-                int newLeft = g.pos - rangeLeft;
-                int newRight = rangeRight - g.pos;
-                position[g.spos] = g.pos;
-                near[nearestToPos] = g.pos;
-                near[g.spos] = rangeRight;
-                int remove = rangeRight - rangeLeft;
-                if (map.get(remove) > 1) {
-                    int ev = map.get(remove); map.put(remove, --ev);
-                } else {
-                    map.remove(remove);
-                }
-                if (!map.containsKey(newLeft)) {
-                    map.put(newLeft, 0);
-                }
-                if (!map.containsKey(newRight)) {
-                    map.put(newRight, 0);
-                }
-                int ev1 = map.get(newLeft);
-                map.put(newLeft, ++ev1);
-                int ev2 = map.get(newRight);
-                map.put(newRight, ++ev2);
-                g.placed = true;
-                rw.printWriter.print(map.firstEntry().getKey() + " ");
+            if (numerator == 0) {
+                rw.println("Impossible");
+            } else {
+
+                    int GCD = gcd(numerator, denominator);
+                    numerator /= GCD;
+                    denominator /= GCD;
+
+                rw.println(numerator + " " + denominator);
             }
         }
     }
 
     public static void main(String[] args) throws Exception {
-        solve(false);
+        solve(true);
         rw.flush();
     }
 
@@ -189,7 +136,7 @@ public class ProbelmC {
             String[] line = rs().split(" ");
             long[] arr = new long[line.length];
             for (int i = 0; i < line.length; i++) {
-                arr[i] = Long.parseLong(line[i]);
+                arr[i] = Integer.parseInt(line[i]);
             }
             return arr;
         }
@@ -217,5 +164,3 @@ public class ProbelmC {
         }
     }
 }
-//20 17
-//8 1 2 3 4 5 6 7 10 11 12 13 14 20 17 19 16
