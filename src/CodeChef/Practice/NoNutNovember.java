@@ -1,54 +1,56 @@
-package CodeChef.Exun2019;
+package CodeChef.Practice;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
-public class ProblemB {
+public class NoNutNovember {
 
     static ReaderWriter rw = new ReaderWriter();
     static Helpers hp = new Helpers();
 
     private static void solve(boolean multipleTC) throws Exception {
         int T = multipleTC ? rw.ri() : 1;
-        BigInteger bigInteger;
         while (T-- > 0) {
-            int N = rw.ri();
-            int gamesPoss = (N * (N-1))/2;
-            if (gamesPoss % N != 0) {
-                rw.println("NO");
-            } else {
-                rw.println("YES");
-                int BBB = gamesPoss / N;
-                for (int i = 0; i < N; i++) {
-                    int rek = N - (i+1);
-                    int p1 = 0, p2 = 0;
-                    if (rek >= BBB) {
-                        p2 = BBB;
-                    } else {
-                        p2 = rek; p1 = BBB - p2;
+            int[] input = rw.ria();
+            int k = rw.gifs(input, 0);
+            int n = rw.gifs(input, 1);
+            String[] strings  = rw.rs().trim().split(" ");
+            ArrayList<Integer> list = new ArrayList<>();
+            int c = 0;
+            char curr;
+            int sq = 0;
+            for (int i = 0; i < strings.length; i++) {
+                char cc = strings[i].charAt(0);
+                if (cc == 'S') {
+                    sq++;
+                }
+                curr = cc;
+                if (curr == 'S' || (curr == 'N' && i == strings.length - 1)) {
+                    if (curr == 'N') {
+                        c++;
                     }
-                    for (int j = 0; j < N; j++) {
-                        if (i == j) {
-                            rw.printWriter.print("0");
-                            continue;
-                        }
-                        if (p1 > 0) {
-                            rw.printWriter.print("1");p1--;
-                            continue;
-                        }
-                        if (j > i && p2 > 0) {
-                            rw.printWriter.print("1");p2--;
-                            continue;
-                        } else {
-                            rw.printWriter.print("0");
-                        }
+                    if (c > k) {
+                        c = k;
                     }
-                    rw.println("");
+                    list.add(c);
+                    c = 0;
+                } else {
+                    c++;
                 }
             }
+            Collections.sort(list);
+            if (list.size() > sq) {
+                list.remove(0);
+            }
+            int ans = 0;
+            for (Integer integer : list) {
+                ans += integer;
+            }
+            rw.println(ans);
         }
     }
 
@@ -123,7 +125,7 @@ public class ProblemB {
         }
 
         int[] ria() throws Exception {
-            String[] line = rs().split(" ");
+            String[] line = rs().trim().split(" ");
             int[] arr = new int[line.length];
             for (int i = 0; i < line.length; i++) {
                 arr[i] = Integer.parseInt(line[i]);

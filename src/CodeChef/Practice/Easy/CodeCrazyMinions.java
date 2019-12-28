@@ -1,54 +1,33 @@
-package CodeChef.Exun2019;
+package CodeChef.Practice.Easy;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.math.BigInteger;
 import java.util.HashMap;
 
-public class ProblemB {
+public class CodeCrazyMinions {
 
     static ReaderWriter rw = new ReaderWriter();
     static Helpers hp = new Helpers();
 
     private static void solve(boolean multipleTC) throws Exception {
         int T = multipleTC ? rw.ri() : 1;
-        BigInteger bigInteger;
         while (T-- > 0) {
-            int N = rw.ri();
-            int gamesPoss = (N * (N-1))/2;
-            if (gamesPoss % N != 0) {
-                rw.println("NO");
-            } else {
-                rw.println("YES");
-                int BBB = gamesPoss / N;
-                for (int i = 0; i < N; i++) {
-                    int rek = N - (i+1);
-                    int p1 = 0, p2 = 0;
-                    if (rek >= BBB) {
-                        p2 = BBB;
-                    } else {
-                        p2 = rek; p1 = BBB - p2;
-                    }
-                    for (int j = 0; j < N; j++) {
-                        if (i == j) {
-                            rw.printWriter.print("0");
-                            continue;
-                        }
-                        if (p1 > 0) {
-                            rw.printWriter.print("1");p1--;
-                            continue;
-                        }
-                        if (j > i && p2 > 0) {
-                            rw.printWriter.print("1");p2--;
-                            continue;
-                        } else {
-                            rw.printWriter.print("0");
-                        }
-                    }
-                    rw.println("");
+            String string = rw.rs();
+            char m = string.charAt(0);
+            int max = 11 * string.length();
+            int load = 1;
+            for(int i = 1; i < string.length(); i++) {
+                char curr = string.charAt(i);
+                if (curr >= m) {
+                    load += (curr - m);
+                } else {
+                    load += ((122 - m) + (curr - 96));
                 }
+                m = curr;
             }
+            load += (string.length());
+            rw.println(load <= max ? "YES" : "NO");
         }
     }
 

@@ -1,59 +1,45 @@
-package CodeChef.Exun2019;
+package CodeChef.Practice;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.math.BigInteger;
 import java.util.HashMap;
+import java.util.HashSet;
 
-public class ProblemB {
+public class LUCKYSTR {
 
     static ReaderWriter rw = new ReaderWriter();
     static Helpers hp = new Helpers();
 
     private static void solve(boolean multipleTC) throws Exception {
         int T = multipleTC ? rw.ri() : 1;
-        BigInteger bigInteger;
         while (T-- > 0) {
-            int N = rw.ri();
-            int gamesPoss = (N * (N-1))/2;
-            if (gamesPoss % N != 0) {
-                rw.println("NO");
-            } else {
-                rw.println("YES");
-                int BBB = gamesPoss / N;
-                for (int i = 0; i < N; i++) {
-                    int rek = N - (i+1);
-                    int p1 = 0, p2 = 0;
-                    if (rek >= BBB) {
-                        p2 = BBB;
-                    } else {
-                        p2 = rek; p1 = BBB - p2;
-                    }
-                    for (int j = 0; j < N; j++) {
-                        if (i == j) {
-                            rw.printWriter.print("0");
-                            continue;
-                        }
-                        if (p1 > 0) {
-                            rw.printWriter.print("1");p1--;
-                            continue;
-                        }
-                        if (j > i && p2 > 0) {
-                            rw.printWriter.print("1");p2--;
-                            continue;
-                        } else {
-                            rw.printWriter.print("0");
-                        }
-                    }
-                    rw.println("");
+            int[] ints = rw.ria();
+            int K = rw.gifs(ints, 0);
+            int N = rw.gifs(ints, 1);
+            HashSet<String> Ks = new HashSet<>();
+            for (int i = 0; i < K; i++) {
+                Ks.add(rw.rs().trim());
+            }
+            outer : for (int i = 0; i < N; i++) {
+                String s = rw.rs().trim();
+                if (s.length() >= 47) {
+                    rw.println("Good");
+                    continue;
                 }
+                for (String k : Ks) {
+                    if (s.contains(k)) {
+                        rw.println("Good");
+                        continue outer;
+                    }
+                }
+                rw.println("Bad");
             }
         }
     }
 
     public static void main(String[] args) throws Exception {
-        solve(true);
+        solve(false);
         rw.flush();
     }
 

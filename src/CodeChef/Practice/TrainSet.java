@@ -1,54 +1,47 @@
-package CodeChef.Exun2019;
+package CodeChef.Practice;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.math.BigInteger;
 import java.util.HashMap;
+import java.util.Map;
 
-public class ProblemB {
+public class TrainSet {
 
     static ReaderWriter rw = new ReaderWriter();
     static Helpers hp = new Helpers();
 
     private static void solve(boolean multipleTC) throws Exception {
         int T = multipleTC ? rw.ri() : 1;
-        BigInteger bigInteger;
         while (T-- > 0) {
             int N = rw.ri();
-            int gamesPoss = (N * (N-1))/2;
-            if (gamesPoss % N != 0) {
-                rw.println("NO");
-            } else {
-                rw.println("YES");
-                int BBB = gamesPoss / N;
-                for (int i = 0; i < N; i++) {
-                    int rek = N - (i+1);
-                    int p1 = 0, p2 = 0;
-                    if (rek >= BBB) {
-                        p2 = BBB;
-                    } else {
-                        p2 = rek; p1 = BBB - p2;
-                    }
-                    for (int j = 0; j < N; j++) {
-                        if (i == j) {
-                            rw.printWriter.print("0");
-                            continue;
-                        }
-                        if (p1 > 0) {
-                            rw.printWriter.print("1");p1--;
-                            continue;
-                        }
-                        if (j > i && p2 > 0) {
-                            rw.printWriter.print("1");p2--;
-                            continue;
-                        } else {
-                            rw.printWriter.print("0");
-                        }
-                    }
-                    rw.println("");
+            HashMap<String, Integer> trueSet = new HashMap<>();
+            HashMap<String, Integer> falseSet = new HashMap<>();
+            for (int i = 0; i < N; i++) {
+                String[] strings = rw.rs().split(" ");
+                String s = strings[0].trim();
+                int bool = Integer.parseInt(strings[1]);
+                if (!trueSet.containsKey(s)) {
+                    trueSet.put(s, 0);
+                }
+                if (!falseSet.containsKey(s)) {
+                    falseSet.put(s, 0);
+                }
+                if (bool == 1) {
+                    int ev = trueSet.get(s);
+                    trueSet.put(s, ++ev);
+                } else {
+                    int ev = falseSet.get(s);
+                    falseSet.put(s, ++ev);
                 }
             }
+            int ans = 0;
+            for (Map.Entry<String, Integer> entry : trueSet.entrySet()) {
+                int v1 = entry.getValue();
+                int v2 = falseSet.get(entry.getKey());
+                ans += Math.max(v1, v2);
+            }
+            rw.println(ans);
         }
     }
 

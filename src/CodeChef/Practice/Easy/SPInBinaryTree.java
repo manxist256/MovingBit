@@ -1,55 +1,52 @@
-package CodeChef.Exun2019;
+package CodeChef.Practice.Easy;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.math.BigInteger;
 import java.util.HashMap;
+import java.util.HashSet;
 
-public class ProblemB {
+public class SPInBinaryTree {
 
     static ReaderWriter rw = new ReaderWriter();
     static Helpers hp = new Helpers();
 
     private static void solve(boolean multipleTC) throws Exception {
         int T = multipleTC ? rw.ri() : 1;
-        BigInteger bigInteger;
         while (T-- > 0) {
-            int N = rw.ri();
-            int gamesPoss = (N * (N-1))/2;
-            if (gamesPoss % N != 0) {
-                rw.println("NO");
-            } else {
-                rw.println("YES");
-                int BBB = gamesPoss / N;
-                for (int i = 0; i < N; i++) {
-                    int rek = N - (i+1);
-                    int p1 = 0, p2 = 0;
-                    if (rek >= BBB) {
-                        p2 = BBB;
-                    } else {
-                        p2 = rek; p1 = BBB - p2;
-                    }
-                    for (int j = 0; j < N; j++) {
-                        if (i == j) {
-                            rw.printWriter.print("0");
-                            continue;
-                        }
-                        if (p1 > 0) {
-                            rw.printWriter.print("1");p1--;
-                            continue;
-                        }
-                        if (j > i && p2 > 0) {
-                            rw.printWriter.print("1");p2--;
-                            continue;
-                        } else {
-                            rw.printWriter.print("0");
-                        }
-                    }
-                    rw.println("");
+            int[] N = rw.ria();
+            int u = rw.gifs(N, 0);
+            int v = rw.gifs(N, 1);
+            HashSet<Integer> uAncestors = getAncestors(u);
+            HashSet<Integer> vAncestors = getAncestors(v);;
+            int max = 0;
+            for (Integer integer : uAncestors) {
+                if (vAncestors.contains(integer) && integer > max) {
+                    max = integer;
                 }
             }
+            int edge1 = getEdge(max, u);
+            int edge2 = getEdge(max, v);
+            rw.println(edge1 + edge2);
         }
+    }
+
+    private static int getEdge(int lca, int node) {
+        int edge = 0;
+        while (node != lca) {
+            node /= 2;
+            edge++;
+        }
+        return edge;
+    }
+
+    private static HashSet<Integer> getAncestors(int pos) {
+        HashSet<Integer> ancestors = new HashSet<>();
+        while (pos != 0) {
+            ancestors.add(pos);
+            pos /= 2;
+        }
+        return ancestors;
     }
 
     public static void main(String[] args) throws Exception {

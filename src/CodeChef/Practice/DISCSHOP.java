@@ -1,54 +1,44 @@
-package CodeChef.Exun2019;
+package CodeChef.Practice;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.math.BigInteger;
 import java.util.HashMap;
 
-public class ProblemB {
+public class DISCSHOP {
 
     static ReaderWriter rw = new ReaderWriter();
     static Helpers hp = new Helpers();
 
     private static void solve(boolean multipleTC) throws Exception {
         int T = multipleTC ? rw.ri() : 1;
-        BigInteger bigInteger;
         while (T-- > 0) {
-            int N = rw.ri();
-            int gamesPoss = (N * (N-1))/2;
-            if (gamesPoss % N != 0) {
-                rw.println("NO");
-            } else {
-                rw.println("YES");
-                int BBB = gamesPoss / N;
-                for (int i = 0; i < N; i++) {
-                    int rek = N - (i+1);
-                    int p1 = 0, p2 = 0;
-                    if (rek >= BBB) {
-                        p2 = BBB;
-                    } else {
-                        p2 = rek; p1 = BBB - p2;
-                    }
-                    for (int j = 0; j < N; j++) {
-                        if (i == j) {
-                            rw.printWriter.print("0");
-                            continue;
-                        }
-                        if (p1 > 0) {
-                            rw.printWriter.print("1");p1--;
-                            continue;
-                        }
-                        if (j > i && p2 > 0) {
-                            rw.printWriter.print("1");p2--;
-                            continue;
-                        } else {
-                            rw.printWriter.print("0");
-                        }
-                    }
-                    rw.println("");
+            String ss = rw.rs();
+            int number = Integer.parseInt(ss);
+            String s = String.valueOf(number);
+            int k = 11;
+            StringBuilder ans = new StringBuilder();
+            for (int i = 0; i < s.length() - 1; i++) {
+                int n1 = s.charAt(i) - '0';
+                int n2 = s.charAt(i+1) - '0';
+                if (n1 == n2) {
+                    ans.append(n1);
+                    continue;
                 }
+                // see if n1 can be removed
+                if (n1 < n2) {
+                    ans.append(n1);
+                    continue;
+                }
+                ans.append(n2);
+                k = i+2;
+                break;
             }
+            for (int j = k; j < s.length(); j++) {
+                ans.append(s.charAt(j));
+            }
+
+            rw.println(Integer.parseInt(ans.toString()));
         }
     }
 

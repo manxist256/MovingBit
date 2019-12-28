@@ -1,59 +1,61 @@
-package CodeChef.Exun2019;
+package CodeChef.Practice.Easy;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.math.BigInteger;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
-public class ProblemB {
+public class ROWCOLOP {
 
     static ReaderWriter rw = new ReaderWriter();
     static Helpers hp = new Helpers();
 
     private static void solve(boolean multipleTC) throws Exception {
         int T = multipleTC ? rw.ri() : 1;
-        BigInteger bigInteger;
         while (T-- > 0) {
-            int N = rw.ri();
-            int gamesPoss = (N * (N-1))/2;
-            if (gamesPoss % N != 0) {
-                rw.println("NO");
-            } else {
-                rw.println("YES");
-                int BBB = gamesPoss / N;
-                for (int i = 0; i < N; i++) {
-                    int rek = N - (i+1);
-                    int p1 = 0, p2 = 0;
-                    if (rek >= BBB) {
-                        p2 = BBB;
-                    } else {
-                        p2 = rek; p1 = BBB - p2;
-                    }
-                    for (int j = 0; j < N; j++) {
-                        if (i == j) {
-                            rw.printWriter.print("0");
-                            continue;
+            int[] arr = rw.ria();
+            int N = rw.gifs(arr, 0);
+            int Q = rw.gifs(arr, 1);
+            TreeMap<Integer, Integer> row = new TreeMap<>();
+            TreeMap<Integer, Integer> column = new TreeMap<>();
+            for (int i = 0; i < Q; i++) {
+                String[] query = rw.rs().split(" ");
+                int division = Integer.parseInt(query[1]);
+                int adder = Integer.parseInt(query[2]);
+                switch(query[0]) {
+                    case "RowAdd" : if (!row.containsKey(division)) {
+                            row.put(division, 0);
                         }
-                        if (p1 > 0) {
-                            rw.printWriter.print("1");p1--;
-                            continue;
+                        int ev = row.get(division);
+                        row.put(division, ev + adder);
+                        break;
+                    case "ColAdd" : if (!column.containsKey(division)) {
+                            column.put(division, 0);
                         }
-                        if (j > i && p2 > 0) {
-                            rw.printWriter.print("1");p2--;
-                            continue;
-                        } else {
-                            rw.printWriter.print("0");
-                        }
-                    }
-                    rw.println("");
+                        int ev2 = column.get(division);
+                        column.put(division, ev2 + adder);
+                        break;
                 }
             }
+            int maxR = 0, maxC = 0;
+            for (Map.Entry<Integer, Integer> entry : row.entrySet()) {
+                if (entry.getValue() > maxR) {
+                    maxR = entry.getValue();
+                }
+            }
+            for (Map.Entry<Integer, Integer> entry : column.entrySet()) {
+                if (entry.getValue() > maxC) {
+                    maxC = entry.getValue();
+                }
+            }
+            rw.println(maxR + maxC);
         }
     }
 
     public static void main(String[] args) throws Exception {
-        solve(true);
+        solve(false);
         rw.flush();
     }
 

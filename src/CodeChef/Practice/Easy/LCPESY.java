@@ -1,54 +1,50 @@
-package CodeChef.Exun2019;
+package CodeChef.Practice.Easy;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.math.BigInteger;
 import java.util.HashMap;
+import java.util.Map;
 
-public class ProblemB {
+public class LCPESY {
 
     static ReaderWriter rw = new ReaderWriter();
     static Helpers hp = new Helpers();
 
     private static void solve(boolean multipleTC) throws Exception {
         int T = multipleTC ? rw.ri() : 1;
-        BigInteger bigInteger;
         while (T-- > 0) {
-            int N = rw.ri();
-            int gamesPoss = (N * (N-1))/2;
-            if (gamesPoss % N != 0) {
-                rw.println("NO");
-            } else {
-                rw.println("YES");
-                int BBB = gamesPoss / N;
-                for (int i = 0; i < N; i++) {
-                    int rek = N - (i+1);
-                    int p1 = 0, p2 = 0;
-                    if (rek >= BBB) {
-                        p2 = BBB;
-                    } else {
-                        p2 = rek; p1 = BBB - p2;
-                    }
-                    for (int j = 0; j < N; j++) {
-                        if (i == j) {
-                            rw.printWriter.print("0");
-                            continue;
-                        }
-                        if (p1 > 0) {
-                            rw.printWriter.print("1");p1--;
-                            continue;
-                        }
-                        if (j > i && p2 > 0) {
-                            rw.printWriter.print("1");p2--;
-                            continue;
-                        } else {
-                            rw.printWriter.print("0");
-                        }
-                    }
-                    rw.println("");
+            String Manikandan = rw.rs();
+            String Vaishnavi = rw.rs();
+            HashMap<Character, Integer> map1 = new HashMap<>();
+            HashMap<Character, Integer> map2 = new HashMap<>();
+            for (int i = 0; i < Manikandan.length(); i++) {
+                char c = Manikandan.charAt(i);
+                if (!map1.containsKey(c)) {
+                    map1.put(c, 0);
                 }
+                int ev = map1.get(c);
+                map1.put(c, ++ev);
             }
+            for (int i = 0; i < Vaishnavi.length(); i++) {
+                char c = Vaishnavi.charAt(i);
+                if (!map2.containsKey(c)) {
+                    map2.put(c, 0);
+                }
+                int ev = map2.get(c);
+                map2.put(c, ++ev);
+            }
+            int weds = 0;
+            for (Map.Entry<Character, Integer> entry : map1.entrySet()) {
+                char key = entry.getKey();
+                int value = entry.getValue();
+                if (!map2.containsKey(key)) {
+                    continue;
+                }
+                int map2V = map2.get(key);
+                weds += Math.min(value, map2V);
+            }
+            rw.println(weds);
         }
     }
 
