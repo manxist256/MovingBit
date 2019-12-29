@@ -1,55 +1,41 @@
-package CodeChef.Lunchtime.December2019;
+package CodeChef.Practice;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 
-public class ProblemB {
+public class SafeRobots {
 
     static ReaderWriter rw = new ReaderWriter();
     static Helpers hp = new Helpers();
 
-    static ArrayList<Long> getFactors(long N) {
-        long sqrt = (long)Math.sqrt(N) + 1;
-        ArrayList<Long> factors = new ArrayList<>();
-        for (int i = 1; i <= sqrt; i++) {
-            if (N % i == 0) {
-                factors.add((long)i);
-                if (i == N / i) {
-                    continue;
-                }
-                factors.add(N / i);
-            }
-        }
-        return factors;
-    }
-
     private static void solve(boolean multipleTC) throws Exception {
         int T = multipleTC ? rw.ri() : 1;
-        while (T-- > 0) {
-            long[] arr = rw.rla();
-            long A = arr[0];
-            long M = arr[1];
-            ArrayList<Long> factorsOfM = getFactors(M);
-            ArrayList<Long> finalAnswer = new ArrayList<>();
-            for (Long l : factorsOfM) {
-                if ((l - 1) % A == 0) {
-                    long x = (l-1)/A;
-                    long d = M / (A*x  + 1);
-                    finalAnswer.add(d*x);
+        outer : while (T-- > 0) {
+            String s = rw.rs();
+            int[] conf = rw.ria();
+            int sa = conf[0];
+            int sb = conf[1];
+            int A = 1, B = s.length();
+            for (int i = 0; i < s.length(); i++) {
+                if (s.charAt(i) == 'A') {
+                    A = i+1;
+                }
+                if (s.charAt(i) == 'B') {
+                    B = i+1;
+                    break;
                 }
             }
-            Collections.sort(finalAnswer);
-            if (finalAnswer.contains(0l))
-                finalAnswer.remove(0l);
-            rw.println(finalAnswer.size());
-            for (Long l : finalAnswer) {
-                rw.print(l);
+            while (A <= B) {
+                if (A == B) {
+                    rw.println("unsafe");
+                    continue outer;
+                }
+                A += sa;
+                B -= sb;
             }
-            rw.println("");
+            rw.println("safe");
         }
     }
 
@@ -103,14 +89,6 @@ public class ProblemB {
             printWriter.println(i);
         }
 
-        protected void print(int i) {
-            printWriter.print(i + " ");
-        }
-
-        protected void print(long l) {
-            printWriter.print(l + " ");
-        }
-
         protected void println(long l) {
             printWriter.println(l);
         }
@@ -144,7 +122,7 @@ public class ProblemB {
             String[] line = rs().split(" ");
             long[] arr = new long[line.length];
             for (int i = 0; i < line.length; i++) {
-                arr[i] = Long.parseLong(line[i]);
+                arr[i] = Integer.parseInt(line[i]);
             }
             return arr;
         }

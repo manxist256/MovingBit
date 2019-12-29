@@ -1,55 +1,52 @@
-package CodeChef.Lunchtime.December2019;
+//package CodeChef.Practice.Easy;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 
-public class ProblemB {
+class TrainOrWalk {
 
     static ReaderWriter rw = new ReaderWriter();
     static Helpers hp = new Helpers();
 
-    static ArrayList<Long> getFactors(long N) {
-        long sqrt = (long)Math.sqrt(N) + 1;
-        ArrayList<Long> factors = new ArrayList<>();
-        for (int i = 1; i <= sqrt; i++) {
-            if (N % i == 0) {
-                factors.add((long)i);
-                if (i == N / i) {
-                    continue;
-                }
-                factors.add(N / i);
-            }
-        }
-        return factors;
-    }
-
     private static void solve(boolean multipleTC) throws Exception {
         int T = multipleTC ? rw.ri() : 1;
         while (T-- > 0) {
-            long[] arr = rw.rla();
-            long A = arr[0];
-            long M = arr[1];
-            ArrayList<Long> factorsOfM = getFactors(M);
-            ArrayList<Long> finalAnswer = new ArrayList<>();
-            for (Long l : factorsOfM) {
-                if ((l - 1) % A == 0) {
-                    long x = (l-1)/A;
-                    long d = M / (A*x  + 1);
-                    finalAnswer.add(d*x);
+            int[] input = rw.ria();
+            int N = input[0];
+            int A = input[1];
+            int B = input[2];
+            int C = input[3];
+            int D = input[4];
+            int P = input[5];
+            int Q = input[6];
+            int Y = input[7];
+            int[] loc = rw.ria();
+            int min = Integer.MAX_VALUE;
+            for (int i = 0; i < N; i++) {
+                if (loc[i] < min) {
+                    min = loc[i];
                 }
             }
-            Collections.sort(finalAnswer);
-            if (finalAnswer.contains(0l))
-                finalAnswer.remove(0l);
-            rw.println(finalAnswer.size());
-            for (Long l : finalAnswer) {
-                rw.print(l);
+            if (min < 1) {
+                int t = 1 - min;
+                for (int i = 0; i < N; i++) {
+                    loc[i] += t;
+                }
             }
-            rw.println("");
+            int woT = Math.abs(loc[B-1] - loc[A-1]) * P;
+            int catchT = Math.abs(loc[C-1] - loc[A-1]) * P;
+            boolean trainCasePoss = catchT <= Y;
+            if (!trainCasePoss) {
+                rw.println(woT);
+            } else {
+                int trainW = Y - catchT;
+                int trainT = Math.abs(loc[D-1] - loc[C-1]) * Q;
+                int reachFinal = Math.abs(loc[D-1] - loc[B-1])*P;
+                int wiT = trainW + trainT + reachFinal + (catchT);
+                rw.println(Math.min(woT, wiT));
+            }
         }
     }
 
@@ -103,14 +100,6 @@ public class ProblemB {
             printWriter.println(i);
         }
 
-        protected void print(int i) {
-            printWriter.print(i + " ");
-        }
-
-        protected void print(long l) {
-            printWriter.print(l + " ");
-        }
-
         protected void println(long l) {
             printWriter.println(l);
         }
@@ -144,7 +133,7 @@ public class ProblemB {
             String[] line = rs().split(" ");
             long[] arr = new long[line.length];
             for (int i = 0; i < line.length; i++) {
-                arr[i] = Long.parseLong(line[i]);
+                arr[i] = Integer.parseInt(line[i]);
             }
             return arr;
         }

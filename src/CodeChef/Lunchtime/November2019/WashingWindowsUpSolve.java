@@ -1,55 +1,48 @@
-package CodeChef.Lunchtime.December2019;
+package CodeChef.Lunchtime.November2019;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.HashMap;
 
-public class ProblemB {
+public class WashingWindowsUpSolve {
 
     static ReaderWriter rw = new ReaderWriter();
     static Helpers hp = new Helpers();
 
-    static ArrayList<Long> getFactors(long N) {
-        long sqrt = (long)Math.sqrt(N) + 1;
-        ArrayList<Long> factors = new ArrayList<>();
-        for (int i = 1; i <= sqrt; i++) {
-            if (N % i == 0) {
-                factors.add((long)i);
-                if (i == N / i) {
-                    continue;
-                }
-                factors.add(N / i);
-            }
-        }
-        return factors;
-    }
-
     private static void solve(boolean multipleTC) throws Exception {
         int T = multipleTC ? rw.ri() : 1;
         while (T-- > 0) {
-            long[] arr = rw.rla();
-            long A = arr[0];
-            long M = arr[1];
-            ArrayList<Long> factorsOfM = getFactors(M);
-            ArrayList<Long> finalAnswer = new ArrayList<>();
-            for (Long l : factorsOfM) {
-                if ((l - 1) % A == 0) {
-                    long x = (l-1)/A;
-                    long d = M / (A*x  + 1);
-                    finalAnswer.add(d*x);
+            int[] RC = rw.ria();
+            int R = RC[0];
+            int C = RC[1];
+            int[][] twoD = new int[R][C];
+            for (int i = 0; i < R; i++) {
+                twoD[i] = rw.ria();
+            }
+            int[][] ans = new int[R][C];
+            int[][] dp = new int[R][C];
+            Arrays.fill(ans[0],1);
+            for (int i = 0; i < R; i++) { //for each row
+                if (i == 0) {
+                    dp[0] = twoD[0];
+                    continue;
+                }
+                for (int j = 0; j < C; j++) { //for each column
+                    int max = Math.max(dp[i-1][j], Math.max((j-1 >= 0) ? dp[i-1][j-1] : 0,  (j+1 < C) ? dp[i-1][j+1] : 0));
+                    if (twoD[i][j] > max) {
+                        ans[i][j] = 1;
+                        dp[i][j] = twoD[i][j];
+                    } else {
+                        ans[i][j] = 0;
+                        dp[i][j] = max;
+                    }
                 }
             }
-            Collections.sort(finalAnswer);
-            if (finalAnswer.contains(0l))
-                finalAnswer.remove(0l);
-            rw.println(finalAnswer.size());
-            for (Long l : finalAnswer) {
-                rw.print(l);
+            for (int i = 0; i < R; i++) {
+                rw.pia(ans[i]);
             }
-            rw.println("");
         }
     }
 
@@ -103,14 +96,6 @@ public class ProblemB {
             printWriter.println(i);
         }
 
-        protected void print(int i) {
-            printWriter.print(i + " ");
-        }
-
-        protected void print(long l) {
-            printWriter.print(l + " ");
-        }
-
         protected void println(long l) {
             printWriter.println(l);
         }
@@ -144,7 +129,7 @@ public class ProblemB {
             String[] line = rs().split(" ");
             long[] arr = new long[line.length];
             for (int i = 0; i < line.length; i++) {
-                arr[i] = Long.parseLong(line[i]);
+                arr[i] = Integer.parseInt(line[i]);
             }
             return arr;
         }
@@ -159,7 +144,7 @@ public class ProblemB {
 
         void pia(int[] array) {
             for (int i = 0; i < array.length; i++) {
-                printWriter.print(array[i] + " ");
+                printWriter.print(array[i]);
             }
             printWriter.println();
         }
